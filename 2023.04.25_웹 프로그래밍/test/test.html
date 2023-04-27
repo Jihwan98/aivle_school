@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 웹 브라우져 호환성 설정에 대한 내용 IE=edge >> IE8 이상으로 해석 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 반응형웹에 사용 >> 가로 사이즈에 따라서 출력되는 결과의 사이즈가 달라짐 -->
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <title>KT</title>
+</head>
+
+<body>
+    <div id="contents">
+        <header id="header">
+            header
+            <nav id="nav">nav</nav>
+        </header>
+        <main id="main">
+            main
+            <section id="section1">
+                <h3>section1</h3>
+                <p>html <strong>code</strong>
+                    p <em>tag</em> <small>text</small> </p>
+                <span>span1</span><br>
+                <span>span2</span>
+                <pre>html     code 
+p tag
+                </pre>
+                <code>
+                    var data = 10;
+                </code>
+            </section>
+            <section id="section2">
+                <!-- emmit : ul>li.data${데이터$}*3 -->
+                <!-- Ctrl + Space -->
+                <ul>
+                    <li class="data1">데이터</li>
+                    <li class="data2">데이터</li>
+                    <li class="data3">데이터</li>
+                </ul>
+            </section>
+            <section id="table">
+                <table>
+                    <caption>데이터 출력</caption>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>addr</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>peter</td>
+                            <td>seoul</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>alice</td>
+                            <td>busan</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section>
+                <img src="https://cfm.kt.com/images/v2/layout/gnb-ktlogo.png" alt="kt로고">
+                <img src="imgs/kt.png" alt="kt로고">
+                <label><input type="checkbox">데이터 1</label>
+                <input type="checkbox">데이터 2
+                <input type="radio" name="data"> 데이터1
+                <input type="radio" name="data"> 데이터2
+                <input type="date">
+                <input type="file">
+                <input type="text" placeholder="아이디 입력">
+            </section>
+            <section>
+                <!-- p>span -->
+                <p><span></span></p>
+                <!-- p+span -->
+                <p></p>
+                <span></span>
+                <!-- (p>span)+(p>span) -->
+                <p><span></span></p>
+                <p><span></span></p>
+                <!-- input:email -->
+                <input type="email" name="" id="">
+                <!-- span#data1 -->
+                <span id="data1"></span>
+                <!-- span.data1 -->
+                <span class="data1"></span>
+                <!-- div>span.data*3 -->
+                <div>
+                    <span class="data"></span>
+                    <span class="data"></span>
+                    <span class="data"></span>
+                </div>
+                <!-- div>span#data$*3 -->
+                <div>
+                    <span id="data1"></span>
+                    <span id="data2"></span>
+                    <span id="data3"></span>
+                </div>
+                <!-- div>span#data${데이터$@3}*3 -->
+                <div>
+                    <span id="data1">데이터3</span>
+                    <span id="data2">데이터4</span>
+                    <span id="data3">데이터5</span>
+                </div>
+
+                <!-- a[href=http://naver.com]{네이버이동} -->
+                <a href="http://naver.com">네이버이동</a>
+
+                <!-- header에 네비게이션 목록 ul, li 3개 생성 -->
+                <!-- header>nav.main-nav>ul>li.item${목록$}*3 -->
+                <header>
+                    <nav class="main-nav">
+                        <ul>
+                            <li class="item1">목록1</li>
+                            <li class="item2">목록2</li>
+                            <li class="item3">목록3</li>
+                        </ul>
+                    </nav>
+                </header>
+            </section>
+        </main>
+        <footer id="footer">
+            footer
+        </footer>
+    </div>
+</body>
+
+</html>
