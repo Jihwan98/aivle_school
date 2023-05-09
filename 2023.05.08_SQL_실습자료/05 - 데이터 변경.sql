@@ -1,5 +1,5 @@
 /*
-데이터 변경
+데이터 변경 : 조심 x 100
 */
 
 
@@ -51,5 +51,5 @@ DELETE FROM vacation
 -- 모든 행 지우기
 DELETE FROM vacation;
 
--- 모든 행 지우기
+-- 모든 행 지우기(더 빠르다)
 TRUNCATE TABLE vacation;

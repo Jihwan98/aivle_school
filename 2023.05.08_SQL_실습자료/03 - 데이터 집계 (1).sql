@@ -105,8 +105,10 @@ SELECT AVG(IFNULL(salary, 0)) AS avg_salary
 - 부서별, 남녀별, 지역별, 연도별 등등
 */
 
+SELECT * FROM employee;
+
 -- 부서별 직원수 조회
-SELECT dept_id, COUNT(*) AS emp_count
+SELECT dept_id, COUNT(*) AS emp_count, AVG(salary) AS avg_salary
 	FROM employee
 	WHERE retire_date IS NULL
 	GROUP BY dept_id;
@@ -124,7 +126,20 @@ SELECT gender, COUNT(*) AS emp_count
 	WHERE retire_date IS NULL
 	GROUP BY gender
 	ORDER BY emp_count ASC;
+    
+-- 참고 : MySQL은 다음이 가능, 대부분의 SQL은 불가능(emp_name을 출력할 수 없음)
+-- 버전이 업데이트 되면서 MySQL에서도 불가능하게 바뀐듯?
+SELECT dept_id, emp_name, COUNT(*) AS emp_count
+	FROM employee
+	WHERE retire_date IS NULL
+	GROUP BY dept_id;
 
+-- 참고 : 다음과 같이 하기를 권고!
+SELECT dept_id, MIN(emp_name) AS emp_name, COUNT(*) AS emp_count
+	FROM employee
+	WHERE retire_date IS NULL
+	GROUP BY dept_id;
+	
 -- 부서별 급여 합 조회
 SELECT dept_id, SUM(IFNULL(salary, 0)) AS tot_salary
 	FROM employee
@@ -139,15 +154,30 @@ SELECT dept_id,
 	FROM employee
 	WHERE retire_date IS NULL
 	GROUP BY dept_id;
+    
+-- 멋진 집계 : 피벗, 크로스탭 분석
+SELECT dept_id, 
+	SUM(IF(gender='M', salary, 0)) AS M_salary,
+	SUM(IF(gender='F', salary, 0)) AS F_salary,
+    SUM(salary) AS total
+	FROM employee
+    WHERE retire_date IS NULL
+    GROUP BY dept_id;
 
 
 -- Q) 근무 중인 직원의 부서별 급여 합 조회
-
+SELECT dept_id, SUM(salary) AS tot_salary
+	FROM employee
+    WHERE retire_date IS NULL
+    GROUP BY dept_id
+    ORDER BY tot_salary DESC;
 
 
 -- Q) 부서별로 급여가 5,000보다 많은 근무중인 직원 수 조회
-
-
+SELECT dept_id, COUNT(*) AS emp_count
+	FROM employee
+    WHERE salary > 5000 AND retire_date IS NULL
+    GROUP BY dept_id;
 
 -- 4) 집계 결과에 대한 조건
 
@@ -163,7 +193,7 @@ SELECT dept_id, COUNT(*) AS emp_count
 	FROM employee
 	WHERE retire_date IS NULL
 	GROUP BY dept_id
-	HAVING COUNT(*) >= 3
+	HAVING COUNT(*) >=3
 	ORDER BY emp_count DESC;
 
 -- HAVING 절에 열 별칭 사용 가능(권고하지 않음)
@@ -176,9 +206,29 @@ SELECT dept_id, COUNT(*) AS emp_count
     
 
 -- Q) 2017년 휴가일수 합이 5가 넘는 직원의 사번과 휴가일수 합 조회
-
+SELECT emp_id, SUM(duration) AS tot_duration
+	FROM vacation
+    WHERE begin_date BETWEEN '2017-01-01' AND '2017-12-31'
+    GROUP BY emp_id
+    HAVING SUM(duration) > 5;
 
 
 -- Q) 2017년에 3회 이상 휴가를 간 직원의 사번과 휴가 횟수 조회
+SELECT emp_id, COUNT(*) AS tot_cnt
+	FROM vacation
+    WHERE begin_date BETWEEN '2017-01-01' AND '2017-12-31'
+    GROUP BY emp_id
+    HAVING COUNT(*) >= 3;
+    
+    
+-- 참고 : 범주 합치기
+SELECT IF(dept_id='GEN', 'HRD', dept_id) AS dept_id, COUNT(*) AS emp_count
+	FROM employee
+    WHERE retire_date IS NULL
+    GROUP BY IF(dept_id='GEN', 'HRD', dept_id);
 
-
+-- 참고 : 정렬 순서 우리 맘대로
+SELECT dept_id, emp_name, hire_date, salary
+	FROM employee
+    WHERE retire_date IS NULL
+    ORDER BY IF(dept_id='STG', '', dept_id) ASC;

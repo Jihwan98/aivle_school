@@ -7,6 +7,84 @@
 USE hrdb2019;
 
 
+SELECT emp_name, emp_id, employee.dept_id, dept_name, gender, hire_date, salary
+	FROM employee
+    INNER JOIN department ON employee.dept_id = department.dept_id
+    WHERE retire_date IS NULL;
+    
+-- 2단계: 단순
+SELECT emp_name, emp_id, e.dept_id, dept_name, gender, hire_date, salary
+	FROM employee AS e
+    INNER JOIN department AS d ON e.dept_id = d.dept_id
+    WHERE retire_date IS NULL;
+
+-- 3단계: 착함
+SELECT e.emp_name, e.emp_id, e.dept_id, d.dept_name, e.gender, e.hire_date, e.salary
+	FROM employee AS e
+    INNER JOIN department AS d ON e.dept_id = d.dept_id
+    WHERE retire_date IS NULL;
+
+-- 조인 #2
+SELECT v.emp_id, e.emp_name, e.gender, e.hire_date, v.begin_date, v.reason, v.duration
+	FROM vacation AS v
+    INNER JOIN employee AS e ON v.emp_id = e.emp_id
+    WHERE e.retire_date IS NULL;
+
+-- 조인 #3
+-- 꼭 pk, fk 가 아니어도 호환만 되면 해당 값으로 JOIN 할 수 있음! 
+SELECT v.emp_id, e.emp_name, e.gender, e.hire_date, v.begin_date, v.reason, v.duration
+	FROM vacation AS v
+    INNER JOIN employee AS e ON v.begin_date= e.hire_date
+    WHERE e.retire_date IS NULL;
+    
+-- 조인 #4
+SELECT v.emp_id, e.emp_name, d.dept_name, e.hire_date, v.begin_date, v.reason, v.duration
+	FROM vacation AS v
+    INNER JOIN employee AS e ON v.emp_id = e.emp_id
+    INNER JOIN department AS d ON e.dept_id = d.dept_id
+    WHERE e.retire_date IS NULL;
+
+-- 조인 #5
+SELECT v.emp_id, e.emp_name, d.dept_name, u.unit_name, e.hire_date, v.begin_date, v.reason, v.duration
+	FROM vacation AS v
+    INNER JOIN employee AS e ON v.emp_id = e.emp_id
+    INNER JOIN department AS d ON e.dept_id = d.dept_id
+    INNER JOIN unit AS u ON u.unit_id = d.unit_id
+    WHERE e.retire_date IS NULL;
+
+-- 조인 #6
+SELECT e.emp_name, e.emp_id, e.hire_date, v.begin_date, v.reason, v.duration
+	FROM employee AS e
+    INNER JOIN vacation AS v ON e.emp_id = v.emp_id
+    WHERE retire_date IS NULL;
+
+-- 조인 #7
+SELECT d.dept_id, d.dept_name, u.unit_name
+	FROM department AS d
+    INNER JOIN unit AS u ON d.unit_id = u.unit_id;
+    
+-- 조인 #8 : 모든 부서 포함
+-- LEFT OUTER, RIGHT OUTER, FULL OUTER
+SELECT d.dept_id, d.dept_name, u.unit_name
+	FROM department AS d
+    LEFT OUTER JOIN unit AS u ON d.unit_id = u.unit_id;
+
+-- 조인 #9 : 모든 직원의 휴가 현황
+SELECT e.emp_id, e.emp_name, e.hire_date, v.begin_date, v.reason, v.duration
+	FROM employee AS e
+    LEFT OUTER JOIN vacation AS v ON e.emp_id = v.emp_id
+    WHERE retire_date IS NULL;
+
+
+-- CROSS JOIN : ON 절이 없다. 모든 경우의 수 만큼의 행이 만들어짐
+
+-- 조인 #100: 남자 직원의 휴가 현황(WHERE 절을 위한 조인이 필요할 수 있음!!)
+SELECT v.emp_id, v.begin_date, v.reason, v.duration
+	FROM vacation as v
+    INNER JOIN employee AS e ON v.emp_id=e.emp_id
+    WHERE e.gender='M';
+
+
 -- 1) 조인 작성 과정
 
 -- 직원 정보 조회
@@ -192,8 +270,15 @@ SELECT emp_id, emp_name, dept_id, phone, email
     
     
 -- Q) 강우동(S0003)보다 급여를 많이 받는 직원 정보 조회
+SELECT emp_id, emp_name, dept_id, phone, email
+	FROM employee
+	WHERE salary > (SELECT salary FROM employee WHERE emp_id='S0003');
 
-
+-- Q) 홍길동과 같은 부서에 근무하는 직원 정보
+SELECT emp_id, emp_name, dept_id, phone, email
+	FROM employee
+	WHERE dept_id = (SELECT dept_id FROM employee WHERE emp_id='S0001');
+    
 -- 6) 상관 하위 쿼리
 
 /*
@@ -218,9 +303,27 @@ SELECT emp_id, emp_name, dept_id, phone, email, salary
     ) AND retire_date IS NULL;
     
 -- Q) 휴가를 간 적이 없는 근무중인 직원 정보 조회
-
+SELECT emp_id, emp_name, dept_id, phone, email, salary
+	FROM employee AS e
+	WHERE NOT EXISTS (
+        SELECT *
+            FROM vacation
+            WHERE emp_id = e.emp_id
+    ) AND retire_date IS NULL;
     
+-- NOT LIKE
+-- NOT IN
+-- NOT BETWEEN
+-- IS NOT NULL
+-- NOT EXISTS
     
 -- Q) 부서별로 급여를 가장 많이 맏는 근무중인 직원 정보 조회
-
+SELECT *
+	FROM employee AS e
+    WHERE salary = (
+    SELECT MAX(salary) 
+		FROM employee 
+		WHERE retire_date IS NULL
+			AND dept_id = e.dept_id)
+		AND retire_date IS NULL;
 
