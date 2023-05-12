@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {% block title %}Title{% endblock %}
+    </title>
+</head>
+<body>
+    <h1>{% block title2 %}Title{% endblock %}</h1>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    상속
+</body>
+</html>
