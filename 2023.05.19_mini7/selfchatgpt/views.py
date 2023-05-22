@@ -26,7 +26,7 @@ def imageGPT(prompt):
     return result
 
 def index(request):
-    return render(request, 'gpt/index.html')
+    return render(request, 'selfgpt/index.html')
 
 def chat(request):
     #post로 받은 question
@@ -41,4 +41,4 @@ def chat(request):
         'result': result
     }
 
-    return render(request, 'gpt/result.html', context) 
+    return render(request, 'selfgpt/result.html', context) 
