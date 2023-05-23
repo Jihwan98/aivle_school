@@ -1,0 +1,25 @@
+{% extends 'base.html' %} <!--base.html을 불러오기-->
+{% load static%}
+{% block contents %}   <!--고유의 내용이 시작된다-->
+<!-- Content section-->
+<section class="py-5">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form action="chat" method="post" entype="application/x-www-form-urlencoded">
+                    {% csrf_token %}
+                    <h1>ChatGPT에게 요청하기</h1>
+                    <div id="file-module-0">
+                        <textarea id="question" name="question">{{question}}</textarea>
+                    </div>
+                    <div>
+                        <label>응답</label>
+                        <span id="result">{{result}}</span>
+                    </div>
+                    <div><button id="text-button" type="submit" >질문</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

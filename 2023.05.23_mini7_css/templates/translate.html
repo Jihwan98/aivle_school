@@ -1,0 +1,37 @@
+{% extends 'base.html' %} <!--base.html을 불러오기-->
+{% load static%}
+
+
+{% block contents %}   <!--고유의 내용이 시작된다-->
+<!-- Content section-->
+<section class="py-5">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2>ChatGPT</h2>
+                <p class="lead">ChatGPT API를 이용해 질문을하고 응답을 받아보기</p>
+                {% comment %} <p class="mb-0">설명 ~~~~~~~~~</p> {% endcomment %}
+                <button type="button" class="btn btn-primary mb-3" onclick="location.href='/chatgpt/'">ChatGPT API 사용</button>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Image element - set the background image for the header in the line below-->
+{% comment %} <div class="py-5 bg-image-full" style="background-image: url('https://source.unsplash.com/4ulffa6qoKA/1200x800')">
+    <!-- Put anything you want here! The spacer below with inline CSS is just for demo purposes!-->
+    <div style="height: 20rem"></div>
+</div> {% endcomment %}
+<!-- Content section-->
+<section class="py-5 fourth-color">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2>수어-ChatGPT 연동</h2>
+                <p class="lead">ChatGPT API를 이용해 질문을하고 응답을 받아보기</p>
+                {% comment %} <p class="mb-0">설명 ~~~~~~~~~</p> {% endcomment %}
+                <button type="button" class="btn btn-secondary" onclick="location.href='/signlanguagetochatgpt/'">수어-ChatGPT 연동</button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
