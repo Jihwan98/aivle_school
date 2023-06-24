@@ -1,1 +1,1 @@
-# aivle_school
+# KT AIVLE School 3기 AI
